@@ -1,1 +1,91 @@
 * Typescript Notes *
+
+**** SECTION 1 : GETTING STARTED  **** **** **** **** **** **** 
+* What is Typescript ?
+-> A Javascript Superset : A language building up on Javascript
+-> Adds new features + Advantages to Javascript
+-> Browser CAN'T execute it!
+-> TS -CompiledTo--> JS
+-> Features are compiled to JS "workarounds", possible errors are thrown
+
+* Why Typescript ?
+function add(num1, num2) {
+    return num1 + num2;
+}
+
+console.log(add("2","3"));
+--> Unwanted Behavior at Runtime -> Mitigation Strategies : Add if check to add function Validate & sanitize user input
+--> Developers can still write invalid code -> TS is a "Tool" that helps developers write better code!
+
+
+* Installing & Using TypeScript
+npm install -g typescript
+
+-> create "using-ts.ts" file
+-> copy that code and make some changes add types
+var button = document.querySelector("button")!;
+var input1 = document.getElementById("num1")! HTMLInputElement;
+var input2 = document.getElementById("num2")! HTMLInputElement;
+function add(num1: number, num2: number) {
+    return num1 + num2;
+}
+button.addEventListener("click", function () {
+    console.log(add(+input1.value, +input2.value));
+});
+
+* TypeScript Overview 
+-> TS adds "Types!"
+-> Next-gen JS Features (compiled down for older Browsers)
+-> Non-JS Features like Interface or Generics
+-> Meta-Programming Features like Decorators
+-> Rich Configuration Options
+-> Modern Tooling that helps even in non-TypeScript Projects
+
+**** **** **** **** **** **** **** **** **** **** **** **** **** **** **** **** **** ****
+
+**** SECTION 2 : TYPESCRIPT BASICS & BASIC TYPES  **** **** **** **** **** ****
+* Core Types
+-> number : 1, 5.3, -10 
+-> string "Hi", 'Hi' : All text values
+-> boolean : true, false : just these two, no "truthy" or "falsy" values
+
+function add(n1: number, n2: number) {
+    return n1 + n2;
+}
+
+const number1 = '5';
+const number2 = 2.8;
+
+const result = add(number1, number2);
+console.log(result);
+
+-> TypeScript's type system only helps you during development
+(before the code gets compiled)
+
+* Typescript Types vs Javascript Types
+-> The key differences is: Javascript uses "dynamic types"(resolved at runtime)
+-> TypeScript uses "static types" (set during development)
+
+* Working with Numbers, Strings & Booleans
+function add(n1: number, n2: number, showResult: boolean, phase: string) {
+    const result = n1 + n2;
+    if(showResult) {
+        console.log(phase + result);
+    }else {
+        return result;
+    } 
+}
+
+const number1 = 5;
+const number2 = 2.8;
+const printResult = true;
+const resultPhase = 'Result it : ';
+
+add(number1, number2, printResult, resultPhase);
+
+
+* Type Assignment & Type Inference
+
+
+
+
