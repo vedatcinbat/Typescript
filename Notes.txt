@@ -44,7 +44,7 @@ button.addEventListener("click", function () {
 **** **** **** **** **** **** **** **** **** **** **** **** **** **** **** **** **** ****
 
 **** SECTION 2 : TYPESCRIPT BASICS & BASIC TYPES  **** **** **** **** **** ****
-* Core Types
+* Core Types *
 -> number : 1, 5.3, -10 
 -> string "Hi", 'Hi' : All text values
 -> boolean : true, false : just these two, no "truthy" or "falsy" values
@@ -85,6 +85,213 @@ add(number1, number2, printResult, resultPhase);
 
 
 * Type Assignment & Type Inference
+let number1: number;
+number1 = 5;
+const number2 = 2.8;
+
+// Incorrect
+let resultPhase = 'Result it : ';
+resultPhase = 0;
+
+* Core Types *
+-> object : {age: 30} Any JavaScript object, more specific types are possible
+const person: {
+    name: string;
+    age: number;
+} = {
+    name: "Vedat",
+    age: 21
+}
+
+* Core Types *
+-> Array: [1,2,3] Any JavaScript array, type can be flexible or strict (regarding the element type)
+const person = {
+    name: "Vedat",
+    age: 21,
+    hobbies: ['Sports', 'Cooking']
+}
+
+let favouriteActivities: string[];
+favouriteActivities = ['Sports', 2]; // Error
+
+for(const hobby of person.hobbies) {
+    console.log(hobby.toUpperCase());
+    console.log(hobby.map()); // Error
+}
+
+* Core Types *
+-> Tuple: [1,2] Fixed-length array where the type of the elements is known, but need not be the same
+const person: {
+    name: string;
+    age: number;
+    hobbies: string[];
+    role: [number, string];
+} = {
+    name: "Vedat",
+    age: 21,
+    hobbies: ['Sports', 'Cooking'],
+    role: [2, 'author']
+}
+
+person.role.push('admin'); // Error
+person.role[1] = 10; // Error
+
+-> Tuple is not flexible as Array, it is fixed length and fixed type
+
+* Core Types *
+-> Enum: enum {NEW, OLD} Enum : Automatically enumerated global constant identifiers
+const enum Role {
+    ADMIN = 6,
+    READ_ONLY,
+    AUTHOR = 'AUTHOR'
+}
+
+const person = {
+    name: "Vedat",
+    age: 21,
+    hobbies: ['Sports', 'Cooking'],
+    role: Role.ADMIN
+}
+
+if(person.role === Role.ADMIN) {
+    console.log('is admin');
+}
+
+* Core Types *
+-> Any: * Avoid using "any" because it disables TS's powerful checks
+-> Use it when you don't know the type of the value
+-> Any is turning off TS checks and go back to JS world
+
+* Core Types *
+-> Union: Combine multiple types
+-> You can be more flexible regarding the types of the values you're working with
+-> Use it when you don't know the type of the value
+
+function combine(input1: (number | string), input2: (number | string)) {
+    let result;
+
+    if(typeof input1 === 'number' && typeof input2 === 'number') {
+        const result = input1 + input2;
+        return result;
+    }else {
+        result = input1.toString() + input2.toString();
+    }
+
+    return result;
+}
+
+const combinedAges = combine(30, 26);
+console.log(combinedAges);
+
+const combinedNames = combine("Max", "Anna");
+console.log(combinedNames);
+
+
+* Core Types *
+-> Literal Types: Combine types with specific values
+-> Use it when you want to restrict the values to a specific set of values
+
+function combine(
+    input1: (number | string),
+    input2: (number | string),
+    resultConversion: 'as-text' | 'as-number'
+) {
+    let result;
+
+    if(typeof input1 === 'number' && typeof input2 === 'number' || resultConversion === 'as-number') {
+        const result = +input1 + +input2;
+        return result;
+    }else {
+        result = input1.toString() + input2.toString();
+    }
+    return result;
+
+    /*if(resultConversion === 'as-number') {
+        return +result;
+    }else {
+        return result.toString();
+    }*/
+}
+
+const combinedAges = combine(30, 26, 'as-number');
+console.log(combinedAges);
+
+const combinedStringAges = combine('30', '26', 'as-number');
+console.log(combinedStringAges);
+
+const combinedNames = combine("Max", "Anna", 'as-text');
+console.log(combinedNames);
+
+* Core Types *
+-> Aliases: Create your own types
+-> Use it when you want to use a type more than once and you want to give it a more descriptive name
+
+type Combinable = number | string;
+type ConversionDescriptor = 'as-number' | 'as-text';
+
+function combine(
+    input1: Combinable,
+    input2: Combinable,
+    resultConversion: ConversionDescriptor
+) {
+
+* Core Types *
+-> Functions & Function Types
+-> void is a valid type in TS
+-> Use it when you don't want to return anything from a function
+--> undefined is same as void but it expects a return value
+
+function add(n1: number, n2: number): number {
+    return n1 + n2;
+}
+
+function printResult(num: number): void {
+    console.log('Result: ' + num);
+}
+
+printResult(add(5, 12));
+
+* Functions as Types *
+function add(n1: number, n2: number): number  {
+    return n1 + n2;
+}
+
+function printResult(num: number): void {
+    console.log('Result: ' + num);
+}
+
+printResult(add(5, 12));
+
+//let combineValues: Function;
+//let combineValues: () => number;
+let combineValues: (a: number, b: number) => number;
+combineValues = add;
+//combineValues = 5; --> Error
+//combineValues = printResult; --> Error
+
+console.log(combineValues(8, 8));
+
+
+//let someValue: undefined;
+
+// console.log(printResult(add(5, 12))); --> undefined
+
+* Function Types & Callbacks *
+function addAndHandle(n1: number, n2: number, cb: (num: number) => void) {
+    const result = n1 + n2;
+    cb(result);
+}
+
+addAndHandle(10, 20, (result) => {
+    console.log(result);
+});
+
+* Unknown & Never *
+-> Unknown: Better than any | Use it when you don't know the type of the value | It is more restrictive than any
+-> Never: Use it when you never expect a function to return anything
+
+
+
 
 
 
