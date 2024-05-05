@@ -290,6 +290,168 @@ addAndHandle(10, 20, (result) => {
 -> Unknown: Better than any | Use it when you don't know the type of the value | It is more restrictive than any
 -> Never: Use it when you never expect a function to return anything
 
+** My Own Questions **
+- What is Callback Function ?
+-> In TS, a callback function is simple a function that is passed as an argument to another function and
+is intended to be called at a later time.
+-> Usally after some asynchronous operation completed or under certain conditions.
+-> Callback functions are commonly used in scenerios like event handling, async programming, and functional programming
+
+Basic example:
+
+function process(callback: () => void) {
+    console.log('Processing...');
+    setTimeout(() => {
+        callback();
+    }, 2000);
+}
+
+function callbackFunction() {
+    console.log('Callback function called!');
+}
+
+process(callbackFunction);
+
+************************************************************************************************************
+
+**** SECTION 3 : COMPILING & CONFIGURING TYPESCRIPT **** **** **** **** **** ****
+* Using Watch Mode
+> tsc app.ts -w
+
+* Compiling the Entire Project & Multiple Files
+> tsc --init
+- It creates a tsconfig.json file
+- It is a configuration file for the TypeScript compiler
+- It allows you to configure the compiler and the compilation process
+- It is a JSON file
+-> now you use tsc -w for compiling all files
+> tsc
+
+* Including & Excluding Files
+-> You can specify which files should be included or excluded from the compilation process
+-> You can use the "files" property to specify the files to be included
+-> You can use the "exclude" property to specify the files to be excluded
+-> Open tsconfig.json file and add the following code
+{
+    ....
+    "include": ["app.ts"],
+    "exclude": ["node_modules", "analytics.ts"]
+}
+-> From now on, only app.ts will be compiled and analytics.ts will be excluded
+> tsc
+-> Now, only app.ts will be compiled
+-> If you dont want to add all files ends with .dev.ts
+-> You can use "exclude" property like this
+{
+    ....
+    "exclude": ["*.dev.ts"]
+}
+-> If you dont want to exclude all files ends with .dev.ts in the subfolders
+-> You can use "exclude" property like this
+{
+    ....
+    "exclude": ["**/*.dev.ts"]
+}
+
+-> For including all files in the subfolders
+{
+    ....
+    "include": ["src/**/*.ts"]
+}
+
+* Setting up a Compilation Target
+-> You can specify the ECMAScript version you want to target
+-> You can use the "target" property to specify the ECMAScript version
+-> const is not supported in ES5
+-> Open tsconfig.json file and add the following code
+{
+    ....
+    "target": "es5",
+}
+-> Target is the version of ECMAScript you want to compile your code to
+
+{
+    ....
+    "target": "es6",
+}
+
+* Understanding Core TypeScript Libs
+-> You can specify the core TypeScript libraries you want to include
+-> You can use the "lib" property to specify the core TypeScript libraries
+-> Open tsconfig.json file and add the following code
+{
+    ....
+    "lib": ["DOM", "ES6", "DOM.Iterable", "ScriptHost"]
+}
+-> The "lib" property is used to specify the core TypeScript libraries you want to include
+-> The "DOM" library is used to include the DOM library
+-> The "ES6" library is used to include the ES6 library
+-> The "DOM.Iterable" library is used to include the DOM.Iterable library
+-> The "ScriptHost" library is used to include the ScriptHost library
+-> Default "lib" property contains a lot of libraries like Map, Set, Promise, etc.
+
+* More Configuration & Compilation Options
+-> jsx : Specify the JSX code generation
+-> declaration : Generate corresponding .d.ts files
+
+* Working with Source Maps
+-> If we want to see the original TypeScript code in the browser we can use source maps true
+-> You can use the "sourceMap" property to generate source maps
+-> Open tsconfig.json file and add the following code
+{
+    ....
+    "sourceMap": true
+}
+
+* rootDir and outDir
+-> outDir is the directory where the compiled files will be placed
+-> rootDir is the directory where the TypeScript files are located
+-> You can use "src" and "dist" folders where src will be rootDir and dist will be outDir
+-> Open tsconfig.json file and add the following code
+{
+    ....
+    "rootDir": "src",
+    "outDir": "dist"
+}
+
+* Stop Emitting Files on Compilation Errors
+"noEmitOnError": false,
+-> If there is compilation errors, when you compile that file it will emit the file
+-> But if its true, it will not emit the file to the dist folder
+
+* Strict Compilation
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
