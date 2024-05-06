@@ -13,6 +13,5 @@ const apiRes1: apiResponse = {
 
 }
 
-
 console.log('Sending data...')
-//console.log(apiRes1);
+console.log(apiRes1);
