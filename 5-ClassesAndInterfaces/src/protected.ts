@@ -1,3 +1,4 @@
+/*
 class Department {
     protected employees: string[] = [];
 
@@ -29,10 +30,8 @@ class ITDerpartment extends Department {
 }
 
 class AccountingDepartment extends Department {
-    private lastReport: string;
     constructor(id: string, private reports: string[]) {
         super(id, 'Accounting');
-        this.lastReport = reports[0];
     }
 
     addEmployee(name: string){
@@ -44,7 +43,6 @@ class AccountingDepartment extends Department {
 
     addReports(text: string) {
         this.reports.push(text);
-        this.lastReport = text;
     }
 
     printReports() {
@@ -77,6 +75,4 @@ itDept.name = 'NEW NAME'; // This is allowed because name is public
 itDept.printEmployeeInformation();
 
 console.log(itDept);
-
-
-
+*/

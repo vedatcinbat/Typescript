@@ -701,6 +701,42 @@ console.log(itDept);
 
 
 * Overriding Properties & The "protected" Modifier
+-> private is not accessible from extended child 
+-> protected is accessible from child classes
+class Department {
+    protected employees: string[] = [];
+}
+
+* Getters & Setters
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
