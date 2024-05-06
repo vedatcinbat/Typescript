@@ -803,27 +803,157 @@ dog.move(); // Moving...
 
 
 
-* Using Interfaces with Classes
+* Extends Interfaces
+-> In TypeScript, interfaces can extend other interfaces, similar to how classes can extend other classes
+-> When an interface extends another interface, it inherits all the members of the parent interface while also allowing the child interface to define
+additional members.
+
+interface ParentInterface {
+    // Properties and methods
+}
+
+interface ChildInterface extends ParentInterface {
+    // Additional properties and methods....
+}
+
+interface Shape {
+    color: string;
+}
+
+interface Circle extends Shape {
+    radius: number;
+    calculateArea(): number;
+}
+
+class CircleImp1 implements Circle {
+    constructor(public color: string, public radius: number) {}
+
+    calculateArea(): number {
+        return Math.PI * this.radius ** 2;
+    }
+}
+
+const myCircle = new CircleImp1('red', 5);
+console.log(myCircle.calculateArea());
+console.log(myCircle.color);
+console.log(myCircle.radius);
+
+
+-> The 'Shape' interface defines a 'color' property
+-> The 'Circle' interface extends the 'Shape' interface and adds a 'radius' property and a 'calculateArea' method
+-> The 'CircleImp1' class implements 'Circle' interface, providing implementations for the 'color', 'radius' and 'calculateArea' members
+
+
+interface Named {
+    readonly  name: string;
+}
+
+interface Greetable extends Named, AnotherInterface { 
+    readonly name: string;
+
+    greet(phase: string): void;
+};
+
+class Person implements Greetable {
+    //name: string;
+    age = 30;
+
+    constructor(name: string) {
+        this.name = name;
+    }
+
+    greet(phase: string) {
+        console.log(phase + ' ' + this.name);
+    }
+}
+
+
+
+let user1: Greetable;
+
+user1 = new Person('Vedat');
+//user1.name = 'Another'; // Cannot assign to 'name' because it is a read-only property
+console.log(user1);
+
+user1.greet('Hi there - I am');
 
 
 
 
+* Interfaces as Function Types
+-> You can describe the shape of a function using an interface, specifying the types of its parameters and its return type
+-> This enables you to enforce a contract for functions and provides type safety when working with functions
+
+interface FunctionInterface {
+    (param1: type1, param2: typ2, ...): returnType;
+}
 
 
+interface MathOperation {
+    (num1: number, num2: number): number;
+}
+
+const add: MathOperation = (a, b) => a + b;
+const subtract: MathOperation = (a, b) => a - b;
+
+console.log(add(5,3))
+console.log(subtract(5,3))
+----------------------------------------------------------------------------------------------------
+interface AddFn {
+    (a: number, b: number): number;
+}
+
+let add: AddFn;
+
+add = (n1: number, n2: number) => {
+    return n1 + n2;
+}
 
 
+* Optional Parameters & Properties
+-> use ? for optional parameters and methods
+
+interface Named {
+    readonly name?: string;
+    outputName?: string;
+}
+
+interface Greetable extends Named { 
+    //readonly name?: string;
+
+    greet(phase: string): void;
+};
+
+class Person implements Greetable {
+    name?: string;
+    age = 30;
+
+    constructor(n?: string) {
+        if(n) {
+            this.name = n;
+        }
+    }
+
+    greet(phase: string) {
+        if(this.name) {
+            console.log(phase + ' ' + this.name);
+        }else {
+            console.log('Hi');
+        
+        }
+    }
+}
 
 
+let user1: Greetable;
+let user2: Greetable;
 
+user1 = new Person();
+user2 = new Person('Vedat');
+console.log(user1);
 
-
-    
-
-
-
-
-
-
+user1.greet('Hi there - I am'); // Hi 
+user2.greet('Hi there - I am'); // Hi there - I am Vedat
 
 
 
