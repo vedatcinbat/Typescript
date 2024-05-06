@@ -708,34 +708,102 @@ class Department {
 }
 
 * Getters & Setters
+class AccountingDepartment extends Department {
+    private lastReport: string;
+
+    get mostRecentReport() {
+        if(this.lastReport) {
+            return this.lastReport;
+        }
+        throw new Error('No report found.');
+    }
+
+    set mostRecentReport(value: string) {
+        if(!value) {
+            throw new Error('Please pass in a valid value!');
+        }
+        this.addReports(value);
+    }
+
+    constructor(id: string, private reports: string[]) {
+        super(id, 'Accounting');
+        this.lastReport = reports[0];
+    }
+
+
+* Static Methods & Properties
+-> In TypeScript, static properties and methods belong to the class itself rather than to instances of the class
+-> They are declared using the 'static' keyword
+-> Static properties are shared among all instances of the class and can be accessed without creating an instance of the class
+
+-> Static Properties : 
+class MyClass {
+    static myStaticProperty: number = 10;
+}
+
+console.log(MyClass.myStaticProperty); // Result: 10
+
+-> Static Methods : 
+class MyClass {
+    static myStaticMethod() {
+        console.log('This is a static method');
+    }
+}
+
+MyClass.myStaticMethod(); // Output: This is a static method
+
+-> Static properties and methods are useful for creating utility functions, managing shared resources, or defining constants that 
+are common to all instances of a classs
+
+
+* Abstract Classes
+-> In TypeScript, abstract classes and methods provide a way to define blueprint for other classes
+-> Abstract classes cannot be instantiated directly; they exists primarily for inheritance purpose
+
+-> Abstract Class : 
+abstract class Animal {
+    abstract makeSound(): void;
+
+    move(): void {
+        console.log('Moving...');
+    }
+}
+
+
+-> Abstract Method
+abstract class Animal {
+    abstract makeSound(): void;
+}
+
+
+-> Inheriting from Abstract Class
+class Dog extends Animal {
+    makeSound(): void {
+        console.log('Woof! Woof!');
+    }
+}
+
+const dog = new Dog();
+dog.makeSound(); // Woof! Woof!
+dog.move(); // Moving...
+
+
+* Singleton & Private Constructors
+-> A singleton pattern is a design pattern that ensures a class has only one instance and provides a global point of access to that instance
+-> In TS, you can implement the "Singleton Pattern" using a combination of a private constructor and a static method to access the single instance
+-> 1. Private Constructor: By making constructor private, you prevent the class from being instantiated from outside the class itself
+-> 2. Static Method: You provide a static method that allows access to the single instance of the class. This method checks if an instance already exists
 
 
 
+* INTERFACES
+-> In TypeScript, interfaces are a powerful way to define contracts within you code 
+-> They allow you to define the structure of objects, including their properties and methods, without providing an implementation
+-> Interfaces are primarly used for type-checking and to enforce consistency across different parts of your codebase
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+* Using Interfaces with Classes
 
 
 
