@@ -515,7 +515,192 @@ console.log(fName: userName, age, person);
 
 
 
-* How Code Gets Compiled * Wrap Up
+**** SECTION 5 : CLASSES & INTERFACES **** **** **** **** **** **** 
+- What is Object-Oriented Programming (OOP) ?
+-> Work with (real-life) Entities in your Code
+-> ProductList : Renders a list of products which were fetched from a db | Object holds rendering + fetching logic
+-> Product : Renders details about a product and allows addition to cart | Object holds rendering + cart-adding logic
+-> ShoppingCart : Renders cart products and total and allows user to order them | Object holds rendering + ordering logic
+
+- Classed & Instances
+-> Objects :
+- "The things you work with in code"
+- Instances of classes
+- Class-based creation is an alternative to using object literals
+
+-> Classes : 
+- "Blueprints for objects"
+- Define how objects look like, which properties and methods they have
+- Classes make creation of multiple, similar objects much easier
+
+
+* Creating a First Class
+class Department {
+    name: string;
+
+    constructor(n: string) {
+        this.name = n;
+    }
+
+}
+
+const accounting = new Department('Accounting')
+
+console.log(accounting);
+
+
+
+* Constructor Functions & The "this" Keyword
+class Department {
+    name: string;
+
+    constructor(n: string) {
+        this.name = n;
+    }
+
+    describe(this: Department): void {
+        console.log(`Department ${this.name}`)
+    }
+
+}
+
+const accounting = new Department('Accounting')
+
+accounting.describe();
+
+console.log(accounting);
+
+const accountingCopy = { name: 'DUMMY', describe: accounting.describe };
+
+accountingCopy.describe(); // Department undefined
+
+
+
+* Private and Public Access Modifiers 
+class Department {
+    name: string;
+    private employees: string[] = [];
+    .....
+
+const accounting = new Department('Accounting')
+
+...
+
+accounting.addEmployee('Max');
+accounting.addEmployee('Manu');
+
+// accounting.employees[2] = 'Anna'; // This is not allowed because employees is private
+
+accounting.printEmployeeInformation();
+
+console.log(accounting);
+
+* Shorthand Initialization
+class Department {
+    /* private id: string;
+    public name: string; */
+    private employees: string[] = [];
+
+    constructor(private id: string, public name: string) {
+        /* 
+            this.name = n;
+            this.id = id; 
+        */
+    }
+
+    describe(this: Department): void {
+        console.log(`Department (${this.id}) ${this.name}`)
+    }
+
+...
+
+const accounting = new Department('d1', 'Accounting')
+
+
+* "readonly" Properties
+-> When you initialize that property, you cannot change after
+
+class Department {
+    constructor(private readonly id: string, public name: string) {
+
+    }
+    .
+    ..
+
+    addEmployee() {
+        ....
+        // this.id = 'd2'; // This is not allowed because id is readonly
+    }
+}
+
+
+* Inheritance
+class Department {
+    private employees: string[] = [];
+
+    constructor(private readonly id: string, public name: string) {
+        /* this.name = n;
+        this.id = id; */
+    }
+
+    describe(this: Department): void {
+        console.log(`Department (${this.id}) ${this.name}`)
+    }
+
+    addEmployee(employee: string) {
+        this.employees.push(employee);
+    }
+
+    printEmployeeInformation() {
+        console.log(this.employees);
+    }
+
+}
+
+class ITDerpartment extends Department {
+    public admins: string[];
+    
+    constructor(id: string, admins: string[]) {
+        super(id, 'IT');
+        this.admins = admins;
+    }
+}
+
+class AccountingDepartment extends Department {
+    constructor(id: string, private reports: string[]) {
+        super(id, 'Accounting');
+    }
+
+    addReports(text: string) {
+        this.reports.push(text);
+    }
+
+    printReports() {
+        console.log(this.reports);
+    }
+}
+
+
+
+
+const itDept = new ITDerpartment('d1', ['Vedat'])
+const accountingDept = new AccountingDepartment('d2', [])
+
+
+itDept.addEmployee('Max');
+itDept.addEmployee('Manu');
+
+accountingDept.addReports('Something went wrong...');
+accountingDept.printReports();
+
+itDept.describe();
+
+itDept.printEmployeeInformation();
+
+console.log(itDept);
+
+
+* Overriding Properties & The "protected" Modifier
 
 
 
@@ -528,15 +713,7 @@ console.log(fName: userName, age, person);
 
 
 
-
-
-
-
-
-
-
-
-
+    
 
 
 
