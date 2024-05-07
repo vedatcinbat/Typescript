@@ -955,5 +955,273 @@ console.log(user1);
 user1.greet('Hi there - I am'); // Hi 
 user2.greet('Hi there - I am'); // Hi there - I am Vedat
 
+**** SECTION 6 : ADVANCED TYPES **** **** **** **** **** ****
+* Intersection Types | Type Guards | Discriminated Unions | Type Casting | Function Overloads
+
+* Intersection Types
+-> Intersection types in TypeScript allow you to combine multiple types into one
+-> This means if you have two or more types, you can create a new type that has all the properties and
+methods of the original types
+
+For example :
+
+interface Dog {
+    bark(): void;
+    run(): void;
+}
+
+interface Robot {
+    compute(): void;
+    run(): void;
+}
+
+-> You can create a new type that represents something with both dog and robot capabilities using intersection types :
+
+type DogRobot = Dog & Robot;
+
+-> Now, DogRobot has all the properties and methods of both Dog and Robot.
+-> You can create an object of type DogRobot and use both bark() and compute() methods:
+
+const myPet: DogRobot = {
+    bark() {
+        console.log("Woof!");
+    },
+    run() {
+        console.log("Running...");
+    },
+    compute() {
+        console.log("Computing...");
+    },
+    move() {
+        console.log("Moving...");
+    }
+};
+
+myPet.bark();
+myPet.compute();
 
 
+* More on Type Guards
+function add(a: Combinable, b: Combinable) {
+    if(typeof a === 'string' || typeof b === 'string') {
+        return a.toString() + b.toString();
+    }
+    return a + b;
+}
+
+type UnknownEmployee = Employee | Admin;
+
+function printEmployeeInformation(emp: UnknownEmployee) {
+    console.log('Name: ' + emp.name);
+    if('privileges' in emp) {
+        console.log('Privileges: ' + emp.privileges);
+    }
+    if('startDate' in emp) {
+        console.log('Start Date: ' + emp.startDate);
+    }
+}
+----------------------------------------------------------------------------------------------------
+class Car {
+    drive() {
+        console.log('Driving...');
+    }
+}
+
+class Truck {
+    drive() {
+        console.log('Driving a truck...');
+    }
+
+    loadCargo(amount: number) {
+        console.log(`Loading cargo ...${amount}`);
+    }
+}
+
+type Vehicle = Car | Truck;
+// Vehicle could be Car or Truck
+const v1 = new Car();
+const v2 = new Truck();
+
+function useVehicle(vehicle: Vehicle) {
+    vehicle.drive();
+    // For checking if vehicle has loadCargo method
+    /*if('loadCargo' in vehicle) {
+        vehicle.loadCargo(1000);
+    * */
+    if(vehicle instanceof Truck) {
+        vehicle.loadCargo(1000);
+    }
+}
+
+useVehicle(v1);
+useVehicle(v2);
+
+* Discriminated Unions
+-> Discriminated unions, also known as tagged unions or algebraic data types, are a powerful feature in TypeScript
+that allows you to work with values that could be one of several types, while still maintaining type safety
+-> They're particularly useful when dealing with complex data structures or modeling different variations of a concept
+
+interface Square {
+    kind: 'square';
+    size: number;
+}
+
+interface Rectangle {
+    kind: 'rectangle';
+    width: number;
+    height: number;
+}
+
+interface Circle {
+    kind: 'circle';
+    radius: number;
+}
+
+type Shape = Square | Rectangle | Circle;
+
+function area(shape:Shape) {
+    switch(shape.kind) {
+        case 'square':
+            return shape.size * shape.size;
+        case 'rectangle':
+            return shape.width * shape.height;
+        case 'circle':
+            return Math.PI * shape.radius ** 2;
+    }
+}
+
+-> Benefits of Discriminated Unions : Discriminated unions provide type safety by ensuring that you handle
+all possible cases. If you try to access a property that doesn't exist on a certain type within the union,
+TypeScript will raise an error. They also make the code more readable and maintainable by clearly defining the different
+variations of a type
+
+interface Bird {
+    type: 'bird';
+    flyingSpeed: number;
+}
+
+interface Horse {
+    type: 'horse';
+    runningSpeed: number;
+}
+
+type Animal = Bird | Horse;
+
+function moveAnimal(animal: Animal) {
+    let speed;
+    switch(animal.type) {
+        case 'bird':
+            speed = animal.flyingSpeed;
+            break;
+        case 'horse':
+            speed = animal.runningSpeed;
+            break;
+    }
+    console.log('Moving at speed: ' + speed);
+}
+
+moveAnimal({type: 'bird', flyingSpeed: 10});
+moveAnimal({type: 'horse', runningSpeed: 20});
+
+* Type Casting
+//const userInputElement = <HTMLInputElement>document.getElementById('user-input')!;
+const userInputElement = document.getElementById('user-input')! as HTMLInputElement;
+
+userInputElement.value = 'Hi there!';
+
+
+
+* Index Properties
+- Index properties, also known as index signatures, allow you to define types that represent objects with a dynamic
+set of properties whose names are not known upfront but follow a specific pattern
+- They are particularly useful when you want to define types for objects that contain arbitrary or dynamic keys
+interface ErrorContainer {
+    //id: string;
+    [prop: string]: string;
+}
+
+const errorBag: ErrorContainer = {
+    //id: 'e1',
+    email: 'Not a valid email!',
+    username: 'Must start with a capital character!'
+}
+
+* Function Overloads
+-> Function overloads in TS allow you to define multiple function signatures for a single function implementation
+-> This features enables TypeScript to provide more accurate type checking and inference when calling the function
+with different argument types or numbers
+
+type Combinable = string | number;
+
+function add(a: number, b: number): string;
+function add(a: string, b: string): string;
+function add(a: Combinable, b: Combinable) {
+    if(typeof a === 'string' || typeof b === 'string') {
+        return a.toString() + b.toString();
+    }
+    return a + b;
+}
+
+const res1 = add(1, 5);
+
+const res2 = add('Vedat', 'Cinbat');
+
+res1.split(' '); // This is not allowed because res1 is a number
+res2.split(' '); // This is allowed because res2 is a string
+
+-> If we didnt overload the function, res1 and res2 would be Combinable type and ts will count res1 and res2 as Combinable type : string | number
+-> And split method will not be available for res1 and res2
+
+* Optional Chaining
+const fetchedUserData = {
+    id :'u1',
+    name: 'Vedat',
+    //job: {title: 'CEO', description: 'My own company'}
+}
+
+//console.log(fetchedUserData.job && fetchedUserData.job.title);
+
+console.log(fetchedUserData?.job?.title);
+
+
+* Nullish Coalescing
+-> If the value is null or undefined, it will return the right side value
+
+const userInput = null;
+
+const storedData = userInput ?? 'DEFAULT';
+
+console.log(storedData);
+
+-> This will return 'DEFAULT' because userInput is null
+-> If userInput is null or undefined, storedData will be 'DEFAULT'
+
+**** SECTION 7 : GENERICS **** **** **** **** **** ****
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+######################################################################################
+Author: Vedat Cinbat
+Started: May 3, 2024
+
+######################################################################################
