@@ -1276,6 +1276,73 @@ console.log(extractAndConvert({name: 'Vedat'}, 'name')) // This works because na
 //console.log(extractAndConvert({name: 'Vedat'}, 'age')) // This will not work because age is not a key of obj
 
 * Generic Classes
+-> Generics are used in various scenarios, such as creating reusable data structures like linked lists,
+stacks, or queues, building flexible higher-order functions, and designing APIs that work with multiple
+types while maintaining type safety.
+-> They're particularly useful in scenarios where you want to write reusable and type-safe code that can work with different types
+
+class DataStorage<T extends string | number | boolean> {
+    private data: T[] = [];
+
+    addItem(item: T) {
+        this.data.push(item);
+    }
+
+    removeItem(item: T) {
+        if(this.data.indexOf(item) === -1) {
+            return;
+        }
+        this.data.splice(this.data.indexOf(item), 1);
+    }
+
+    getItems() {
+        return [...this.data];
+    }
+}
+
+const textStorage = new DataStorage<string>();
+textStorage.addItem('Vedat');
+textStorage.addItem('Ali');
+textStorage.removeItem('Vedat');
+
+console.log(textStorage.getItems());
+
+const numberStorage = new DataStorage<number>();
+numberStorage.addItem(1);
+numberStorage.addItem(2);
+numberStorage.removeItem(1);
+
+console.log(numberStorage.getItems());
+
+* Generic Utility Types
+-> If you want to change in some point that temporarily your object has all optional properties, you can use Partial
+Partial<Name>
+
+interface CourseGoal {
+    title: string;
+    description: string;
+    completeUntil: Date;
+}
+
+function createCourseGoal(title: string, description: string, date: Date): CourseGoal {
+    let courseGoal: P> artial<CourseGoal= {}; // This is a partial object that has all properties of CourseGoal but all are optional
+
+    courseGoal.title = title;
+    courseGoal.description = description;
+    courseGoal.completeUntil = date;
+
+    return courseGoal as CourseGoal;
+}
+
+* Generic Types & Union Types
+
+
+
+
+
+
+
+
 
 
 
